@@ -70,5 +70,22 @@ namespace FieldTesting
 			Assert::AreEqual(BOUNDARY_ERROR, seventh);
 			Assert::AreEqual(BOUNDARY_ERROR, eighth);
 		}
+
+		TEST_METHOD(TestShoot)
+		{
+			int size = 10;
+			Field* player_field = new Field(size);
+			player_field->place_ship(4, 3, 0, 0);
+			player_field->place_ship(1, 1, 8, 8);
+			player_field->place_ship(2, 4, 7, 8);
+			player_field->place_ship(3, 3, 0, 1);
+			player_field->place_ship(4, 2, 3, 5);
+			int first = player_field->shoot(0, 0); //hit
+			int second = player_field->shoot(5, 5); //miss
+			int third = player_field->shoot(10, 10); //INPUT_ERROR
+			Assert::AreEqual(1, first);
+			Assert::AreEqual(0, second);
+			Assert::AreEqual(INPUT_ERROR, third);
+		}
 	};
 }

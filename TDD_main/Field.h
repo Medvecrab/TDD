@@ -16,5 +16,6 @@ public:
 	Field(int new_size);
 	void fill_default();
 	int place_ship(int length, int direction, int row, int column);
+	int shoot(int row, int column);
 };
 
