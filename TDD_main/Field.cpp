@@ -23,7 +23,7 @@ void Field::fill_default()
 
 int Field::place_ship(int length, int direction, int row, int column)
 {
-	if (row > size + PADDING || row < 0 || column > size + PADDING || column < 0)
+	if (row + PADDING > size || row < 0 || column + PADDING  > size || column < 0)
 		return INPUT_ERROR;
 	if (length > 4 || length < 1)
 		return INPUT_ERROR;
@@ -35,12 +35,12 @@ int Field::place_ship(int length, int direction, int row, int column)
 			return BOUNDARY_ERROR;
 		for (int i = row + PADDING; i > row + PADDING - length; i--)
 		{
-			if (field[i][column] == 'o')
+			if (field[i][column + PADDING] == 'o')
 			{
 				field = field_copy;
 				return COLLISION_ERROR;
 			}
-			field[i][column] = 'o';
+			field[i][column + PADDING] = 'o';
 		}
 		break;
 	case 2:
@@ -48,12 +48,12 @@ int Field::place_ship(int length, int direction, int row, int column)
 			return BOUNDARY_ERROR;
 		for (int j = column + PADDING; j < column + PADDING + length; j++)
 		{
-			if (field[row][j] == 'o')
+			if (field[row + PADDING][j] == 'o')
 			{
 				field = field_copy;
 				return COLLISION_ERROR;
 			}
-			field[row][j] = 'o';
+			field[row + PADDING][j] = 'o';
 		}
 		break;
 	case 3:
@@ -61,12 +61,12 @@ int Field::place_ship(int length, int direction, int row, int column)
 			return BOUNDARY_ERROR;
 		for (int i = row + PADDING; i < row + PADDING + length; i++)
 		{
-			if (field[i][column] == 'o')
+			if (field[i][column + PADDING] == 'o')
 			{
 				field = field_copy;
 				return COLLISION_ERROR;
 			}
-			field[i][column] = 'o';
+			field[i][column + PADDING] = 'o';
 		}
 		break;
 	case 4:
@@ -74,16 +74,28 @@ int Field::place_ship(int length, int direction, int row, int column)
 			return BOUNDARY_ERROR;
 		for (int j = column + PADDING; j > column + PADDING - length; j--)
 		{
-			if (field[row][j] == 'o')
+			if (field[row + PADDING][j] == 'o')
 			{
 				field = field_copy;
 				return COLLISION_ERROR;
 			}
-			field[row][j] = 'o';
+			field[row + PADDING][j] = 'o';
 		}
 		break;
 	default:
 		return INPUT_ERROR;
+	}
+	return 0;
+}
+
+int Field::shoot(int row, int column)
+{
+	if (row + PADDING > size|| row < 0 || column + PADDING  > size || column < 0)
+		return INPUT_ERROR;
+	if (field[row + PADDING][column + PADDING] == 'o')
+	{
+		field[row + PADDING][column + PADDING] = 'x';
+		return 1;
 	}
 	return 0;
 }
