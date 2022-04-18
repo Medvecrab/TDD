@@ -87,5 +87,19 @@ namespace FieldTesting
 			Assert::AreEqual(0, second);
 			Assert::AreEqual(INPUT_ERROR, third);
 		}
+
+		TEST_METHOD(TestWin)
+		{
+			int size = 10;
+			Field* player_field = new Field(size);
+			player_field->place_ship(1, 1, 8, 8);
+			player_field->place_ship(1, 1, 7, 7);
+			player_field->shoot(8, 8); //hit
+			int first = player_field->check_win();
+			player_field->shoot(7, 7); //hit
+			int second = player_field->check_win();
+			Assert::AreEqual(0, first);
+			Assert::AreEqual(1, second);
+			}
 	};
 }

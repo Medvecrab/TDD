@@ -20,5 +20,6 @@ public:
 	int shoot(int row, int column);
 	void print_field();
 	void print_enemy_field();
+	int check_win();
 };
 
