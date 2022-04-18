@@ -2,12 +2,14 @@
 #include "CppUnitTest.h"
 #include "../TDD_main/Field.h"
 #include "../TDD_main/Field.cpp"
+#include "../TDD_main/Game.h"
+#include "../TDD_main/Game.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace FieldTesting
 {
-	TEST_CLASS(DefaultTester)
+	TEST_CLASS(FieldTester)
 	{
 	public:
 		
@@ -101,5 +103,14 @@ namespace FieldTesting
 			Assert::AreEqual(0, first);
 			Assert::AreEqual(1, second);
 			}
+	};
+}
+
+namespace GameTesting
+{
+	TEST_CLASS(GameTester)
+	{
+	public:
+
 	};
 }

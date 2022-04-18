@@ -31,7 +31,7 @@ int Field::place_ship(int length, int direction, int row, int column)
 	switch (direction)
 	{
 	case 1:
-		if (row + PADDING - length < 1) //out of bounds
+		if (row + PADDING - length < 0) //out of bounds
 			return BOUNDARY_ERROR;
 		for (int i = row + PADDING; i > row + PADDING - length; i--)
 		{
@@ -44,7 +44,7 @@ int Field::place_ship(int length, int direction, int row, int column)
 		}
 		break;
 	case 2:
-		if (column + PADDING + length > size) //out of bounds
+		if (column + PADDING + length > size + 1) //out of bounds
 			return BOUNDARY_ERROR;
 		for (int j = column + PADDING; j < column + PADDING + length; j++)
 		{
@@ -57,7 +57,7 @@ int Field::place_ship(int length, int direction, int row, int column)
 		}
 		break;
 	case 3:
-		if (row + PADDING + length > size) //out of bounds
+		if (row + PADDING + length > size + 1) //out of bounds
 			return BOUNDARY_ERROR;
 		for (int i = row + PADDING; i < row + PADDING + length; i++)
 		{
@@ -70,7 +70,7 @@ int Field::place_ship(int length, int direction, int row, int column)
 		}
 		break;
 	case 4:
-		if (column + PADDING - length < 1) //out of bounds
+		if (column + PADDING - length < 0) //out of bounds
 			return BOUNDARY_ERROR;
 		for (int j = column + PADDING; j > column + PADDING - length; j--)
 		{
@@ -129,6 +129,25 @@ void Field::print_enemy_field()
 		}
 		std::cout << "\n";
 	}
+}
+
+int Field::check_win()
+{
+	int res = 1;
+	for (int i = PADDING; i < size + PADDING; i++)
+	{
+		for (int j = PADDING; j < size + PADDING; j++)
+		{
+			if (field[i][j] == 'o')
+			{
+				res = 0;
+				break;
+			}
+		}
+		if (res == 0)
+			break;
+	}
+	return res;
 }
 
 Field::Field(int new_size)
