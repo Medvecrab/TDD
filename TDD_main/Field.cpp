@@ -31,8 +31,3 @@ Field::Field(int new_size)
 	}
 	fill_default();
 }
-
-Field::Field()
-{
-	
-}
