@@ -21,6 +21,73 @@ void Field::fill_default()
 	return;
 }
 
+int Field::place_ship(int length, int direction, int row, int column)
+{
+	if (row > size + PADDING || row < 0 || column > size + PADDING || column < 0)
+		return INPUT_ERROR;
+	if (length > 4 || length < 1)
+		return INPUT_ERROR;
+	std::vector<std::string> field_copy = field;
+	switch (direction)
+	{
+	case 1:
+		if (row + PADDING - length < 1) //out of bounds
+			return BOUNDARY_ERROR;
+		for (int i = row + PADDING; i > row + PADDING - length; i--)
+		{
+			if (field[i][column] == 'o')
+			{
+				field = field_copy;
+				return COLLISION_ERROR;
+			}
+			field[i][column] = 'o';
+		}
+		break;
+	case 2:
+		if (column + PADDING + length > size) //out of bounds
+			return BOUNDARY_ERROR;
+		for (int j = column + PADDING; j < column + PADDING + length; j++)
+		{
+			if (field[row][j] == 'o')
+			{
+				field = field_copy;
+				return COLLISION_ERROR;
+			}
+			field[row][j] = 'o';
+		}
+		break;
+	case 3:
+		if (row + PADDING + length > size) //out of bounds
+			return BOUNDARY_ERROR;
+		for (int i = row + PADDING; i < row + PADDING + length; i++)
+		{
+			if (field[i][column] == 'o')
+			{
+				field = field_copy;
+				return COLLISION_ERROR;
+			}
+			field[i][column] = 'o';
+		}
+		break;
+	case 4:
+		if (column + PADDING - length < 1) //out of bounds
+			return BOUNDARY_ERROR;
+		for (int j = column + PADDING; j > column + PADDING - length; j--)
+		{
+			if (field[row][j] == 'o')
+			{
+				field = field_copy;
+				return COLLISION_ERROR;
+			}
+			field[row][j] = 'o';
+		}
+		break;
+	default:
+		return INPUT_ERROR;
+	}
+	return 0;
+}
+
 Field::Field(int new_size)
 {
 	size = new_size;

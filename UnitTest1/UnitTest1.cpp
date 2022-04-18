@@ -29,7 +29,7 @@ namespace FieldTesting
 			test_field[10] = {"9~~~~~~~~~~"};
 			for (int i = 0; i < size + 1; i++)
 			{
-				Assert::AreEqual(player_field->field[i], test_field[i]);
+				Assert::AreEqual(test_field[i], player_field->field[i]);
 			}
 		}
 
@@ -40,21 +40,35 @@ namespace FieldTesting
 			int first = player_field->place_ship(4, 3, 0, 0);
 			int second = player_field->place_ship(1, 1, 8, 8);
 			int third = player_field->place_ship(2, 4, 7, 8);
-			int fourth = player_field->place_ship(3, 3, 0, 0);
+			int fourth = player_field->place_ship(3, 3, 0, 1);
 			int fifth = player_field->place_ship(4, 2, 3, 5);
-			Assert::AreEqual(first + second + third + fourth + fifth, 0); //if everything worked, everything will return 0
+			Assert::AreEqual(0, first); //if everything worked, everything will return 0
+			Assert::AreEqual(0, second);
+			Assert::AreEqual(0, third);
+			Assert::AreEqual(0, fourth);
+			Assert::AreEqual(0, fifth);
 		}
 
 		TEST_METHOD(TestShipPlacementWrong) //different mistakes
 		{
 			int size = 10;
 			Field* player_field = new Field(size);
-			int first = player_field->place_ship(4, 1, 0, 0);
-			int second = player_field->place_ship(1, 1, -1, -1);
-			int third = player_field->place_ship(1, 3, 0, 0);
-			int fourth = player_field->place_ship(4, 3, 0, 0); //placing a ship on top of another ship
-			int fifth = player_field->place_ship(1, 5, 5, 5);
-			Assert::AreEqual(first + second + third + fourth, -7); //if everything "worked", sum will be -7
+			int first = player_field->place_ship(4, 1, 0, 0); // BOUNDARY_ERROR
+			int second = player_field->place_ship(1, 1, -1, -1); // INPUT_ERROR
+			int third = player_field->place_ship(1, 3, 0, 0); // no error
+			int fourth = player_field->place_ship(4, 3, 0, 0); //placing a ship on top of another ship COLLISION ERROR
+			int fifth = player_field->place_ship(1, 5, 5, 5); // INPUT_ERROR
+			int sixth = player_field->place_ship(2, 2, 9, 9); //BOUNDARY_ERROR
+			int seventh = player_field->place_ship(2, 3, 9, 8); //BOUNDARY_ERROR
+			int eighth = player_field->place_ship(2, 4, 9, 0); //BOUNDARY_ERROR
+			Assert::AreEqual(BOUNDARY_ERROR, first);
+			Assert::AreEqual(INPUT_ERROR, second);
+			Assert::AreEqual(0, third);
+			Assert::AreEqual(COLLISION_ERROR, fourth);
+			Assert::AreEqual(INPUT_ERROR, fifth);
+			Assert::AreEqual(BOUNDARY_ERROR, sixth);
+			Assert::AreEqual(BOUNDARY_ERROR, seventh);
+			Assert::AreEqual(BOUNDARY_ERROR, eighth);
 		}
 	};
 }
