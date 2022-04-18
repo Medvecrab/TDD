@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <iostream>
 
 #define INPUT_ERROR -1
 #define BOUNDARY_ERROR -2
@@ -17,5 +18,7 @@ public:
 	void fill_default();
 	int place_ship(int length, int direction, int row, int column);
 	int shoot(int row, int column);
+	void print_field();
+	void print_enemy_field();
 };
 

@@ -97,7 +97,38 @@ int Field::shoot(int row, int column)
 		field[row + PADDING][column + PADDING] = 'x';
 		return 1;
 	}
+	else
+	{
+		field[row + PADDING][column + PADDING] = '.';
+	}
 	return 0;
+}
+
+void Field::print_field()
+{
+	std::cout << "Player's field: \n";
+	for (int i = 0; i < size + PADDING; i++)
+	{
+		for (int j = 0; j < size + PADDING; j++)
+			std::cout << field[i][j] << " ";
+		std::cout << "\n";
+	}
+}
+
+void Field::print_enemy_field()
+{
+	std::cout << "Enemy field: \n";
+	for (int i = 0; i < size + PADDING; i++)
+	{
+		for (int j = 0; j < size + PADDING; j++)
+		{
+			if (field[i][j] == 'o')
+				std::cout << '~' << " ";
+			else
+				std::cout << field[i][j] << " ";
+		}
+		std::cout << "\n";
+	}
 }
 
 Field::Field(int new_size)
